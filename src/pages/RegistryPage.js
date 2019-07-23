@@ -7,6 +7,8 @@ import {
   Form,
   Card,
   CardBody,
+  Spinner,
+  Alert,
 
 } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -21,7 +23,15 @@ class RegistryPage extends Component {
     this.props.register(formValues);
   }
 
-  render() {
+  renderSpinner() {
+    return <Spinner color="dark" />
+  }
+  
+  renderError(error) {
+    return <Alert color="danger">{error}</Alert>
+  }
+
+  renderRegisterForm() {
     return (
       <Container className="mt-2">
         <Row>
@@ -62,6 +72,20 @@ class RegistryPage extends Component {
       </Container >
     )
   }
+
+  render() {
+    let content = null;
+    if(!this.props.isLoading) {
+      if(!this.props.err) {
+        content = this.renderRegisterForm()
+      } else {
+        content = this.renderError(this.props.err)
+      }
+    } else {
+      content = this.renderSpinner()
+    }
+    return content;
+  }
 }
 
 const validate = (formValues) => {
@@ -93,7 +117,7 @@ const validate = (formValues) => {
 }
 
 const mapStateToProps = state => {
-  return {...state.register}
+  return { ...state.register }
 }
 const connectedPage = connect(mapStateToProps, { register })(RegistryPage);
 

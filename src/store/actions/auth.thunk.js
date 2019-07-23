@@ -15,7 +15,7 @@ export const register = (newUser) => async dispatch => {
     const response = await auth.post('/user/register', newUser);
     dispatch(registerSuccess(response.data));
   } catch (error) {
-    dispatch(registerFailure(error));
+    dispatch(registerFailure(error.response.data));
   }
 }
 

@@ -18,7 +18,7 @@ export const registerSuccess = (data) => ({
 
 export const registerFailure = (error) => ({
     type: REGISTER_FAILURE,
-    payload: error
+    payload: error.message
 })
 
 export const loginRequest = () => ({
