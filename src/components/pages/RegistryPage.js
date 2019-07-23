@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Container,
   Row,
@@ -9,61 +9,97 @@ import {
   CardBody,
 
 } from 'reactstrap';
+import { reduxForm } from 'redux-form';
+
 import FormInput from '../../share/FormInput';
 import FormTitle from '../../share/FormTitle';
+import auth from '../../apis/auth';
+import history from '../../browserHistory';
 
 import './styles/login-registry.css';
 
-const RegistryPage = () => {
-  return (
-    <Container className="mt-5">
-      <Row>
-        <Col sm="12" md={{ size: 6, offset: 3 }}>
-          <Card>
-            <CardBody className="form-title">
-            <FormTitle 
-                title="Weather Forecast"
-                subtitle="Registration"
-              />
-            </CardBody>
-            <CardBody>
-              <Form>
-                <FormInput
-                  id="username-registry"
-                  name="username"
-                  type="text"
-                  lable="Username"
-                  placeholder=""
+class RegistryPage extends Component {
+  onSubmitRegistry = async (formValues) => {
+    try {
+      const response = await auth.post('/register', formValues);
+      console.log(response);
+      history.push('/');
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+  render() {
+    return (
+      <Container className="mt-2">
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <Card>
+              <CardBody className="form-title">
+                <FormTitle
+                  title="Weather Forecast"
+                  subtitle="Registration"
                 />
-                <FormInput
-                  id="email-registry"
-                  name="email"
-                  type="email"
-                  lable="Email"
-                  placeholder="example@mail.com"
-                />
-                <FormInput
-                  id="password-registry"
-                  name="password"
-                  type="password"
-                  lable="Password"
-                  placeholder=""
-                />
-                <FormInput
-                  id="confirm-pass-registry"
-                  name="confirm-password"
-                  type="password"
-                  lable="Confirm password"
-                  placeholder=""
-                />
-                <Button>Registry</Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  )
+              </CardBody>
+              <CardBody>
+                <Form onSubmit={this.props.handleSubmit(this.onSubmitRegistry)}> 
+                  <FormInput
+                    name="username"
+                    type="text"
+                    lable="Username"
+                  />
+                  <FormInput
+                    name="email"
+                    type="email"
+                    lable="Email"
+                  />
+                  <FormInput
+                    name="password"
+                    type="password"
+                    lable="Password"
+                  />
+                  <FormInput
+                    name="confirmPassword"
+                    type="password"
+                    lable="Confirm password"
+                  />
+                  <Button>Registry</Button>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
 }
 
-export default RegistryPage;
+const validate = (formValues) => {
+  const errors = {};
+
+  if(!formValues.username) {
+    errors.username = "Required";
+  } else if(formValues.username.length > 15) {
+    errors.username = "Must be 15 characters or less";
+  }
+
+  if (!formValues.email) {
+    errors.email = 'Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)) {
+    errors.email = 'Invalid email address'
+  }
+
+  if (!formValues.password) {
+    errors.password = 'Required'
+  } else if (formValues.password.length < 2) {
+    errors.password = 'Must be 2 characters or more'
+  }
+
+  if(formValues.password !== formValues.confirmPassword) {
+    errors.confirmPassword = "Password must be concurrent"
+  }
+
+  return errors;
+}
+
+export default reduxForm({ form: 'registryForm', validate })(RegistryPage);

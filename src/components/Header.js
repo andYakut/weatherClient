@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 
 const Header = () => {
-  const [collapsed, toogeNavbar] = useState(false);
+  const [collapsed, toogeNavbar] = useState(true);
 
   return (
     <div>

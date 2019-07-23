@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
+import { Field } from 'redux-form';
 
-const FormInput = props => {
-  const { id, lable, type, name, placeholder } = props;
+class FormInput extends Component {
 
-  return (
-    <FormGroup>
-      <Label for={id}>{lable}</Label>
-      <Input type={type} name={name} id={id} placeholder={placeholder}></Input>
-    </FormGroup>
-  )
+  renderError = ({ error, touched }) => {
+    if (touched && error) {
+      return (
+        <div className="mt-2">
+          <div className="text-danger">
+            {error}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderInput = ({ input, lable, type, meta }) => {
+    const inputDanger = `${meta.error && meta.touched ? 'alert-danger' : ''}`;
+    const lableDanger = `${meta.error && meta.touched ? 'text-danger' : ''}`;
+    
+    return (
+      <FormGroup>
+        <Label className={lableDanger}>{lable}</Label>
+        <Input className={inputDanger} {...input} type={type} ></Input>
+        {this.renderError(meta)}
+      </FormGroup>
+    )
+  }
+
+  render() {
+    const { lable, type, name } = this.props;
+
+    return (
+      <Field name={name} lable={lable} type={type} component={this.renderInput} />
+    )
+  }
 }
 
 export default FormInput;

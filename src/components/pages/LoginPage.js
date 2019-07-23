@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import {
   Container,
   Row,
@@ -10,14 +9,27 @@ import {
   CardBody,
 
 } from 'reactstrap';
+import { reduxForm } from 'redux-form';
 
 import FormInput from '../../share/FormInput';
 import FormTitle from '../../share/FormTitle';
 import { login } from '../../store/actions';
+import auth from '../../apis/auth';
+import history from '../../browserHistory';
 
 import './styles/login-registry.css';
 
 class LoginPage extends Component {
+  onSubmitLogin = async (formValues) => {
+    try {
+      const response = await auth.post('/register', formValues);
+      console.log(response);
+      history.push('/');
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   render() {
     return (
       <Container className="mt-5">
@@ -31,22 +43,18 @@ class LoginPage extends Component {
                 />
               </CardBody>
               <CardBody>
-                <Form>
+                <Form onSubmit={this.props.handleSubmit(this.onSubmitLogin)}>
                   <FormInput
-                    id="email-login"
                     name="email"
                     type="email"
                     lable="Email"
-                    placeholder="example@mail.com"
                   />
                   <FormInput
-                    id="password-login"
                     name="password"
                     type="password"
                     lable="Password"
-                    placeholder=""
                   />
-                  <Button onClick={() => this.props.login('andy', 'sdkfjl43kjfl43f')}>Login</Button>
+                  <Button>Login</Button>
                 </Form>
               </CardBody>
             </Card>
@@ -57,4 +65,22 @@ class LoginPage extends Component {
   }
 }
 
-export default connect(null, { login })(LoginPage);
+const validate = (formValues) => {
+  const errors = {};
+
+  if (!formValues.email) {
+    errors.email = 'Required'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)) {
+    errors.email = 'Invalid email address'
+  }
+
+  if (!formValues.password) {
+    errors.password = 'Required'
+  } else if (formValues.password.length < 2) {
+    errors.password = 'Must be 2 characters or more'
+  }
+
+  return errors;
+}
+
+export default reduxForm({ form: 'loginForm', validate })(LoginPage);
