@@ -1,11 +1,14 @@
 import auth from '../../apis/api';
 import history from '../../browserHistory';
 
-import {
-  SIGN_IN,
-  SIGN_OUT,
-
-} from './types';
+import { 
+  loginRequest, 
+  loginSuccess, 
+  loginFailure,
+  regiserRequest,
+  registerSuccess,
+  registerFailure
+} from './auth.action';
 
 export const register = (newUser) => async dispatch => {
   dispatch(regiserRequest());
@@ -17,15 +20,14 @@ export const register = (newUser) => async dispatch => {
   }
 }
 
-export const login = (username, passHash) => async dispatch => {
-
-  const response = await auth.post('/login', { username, passHash });
-
-  dispatch({
-    type: SIGN_IN,
-    payload: response.data
-  });
-  history.push('/');
+export const login = (user) => async dispatch => {
+  dispatch(loginRequest());
+  try {
+    const response = await auth.post('/login', user);
+    dispatch(loginSuccess(response.data));
+  } catch(error) {
+    dispatch(loginFailure(error));
+  }
 }
 
 export const logout = username => async dispatch => {
