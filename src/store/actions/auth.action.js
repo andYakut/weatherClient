@@ -7,11 +7,11 @@ import {
   LOGIN_FAILURE
 } from './types';
 
-export const regiserRequest = () => ({
+export const registerRequest = () => ({
   type: REGISTER_REQUEST,
 })
 
-export const regiserSuccess = (data) => ({
+export const registerSuccess = (data) => ({
   type: REGISTER_SUCCESS,
   payload: data
 })

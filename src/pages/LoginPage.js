@@ -9,25 +9,16 @@ import {
   CardBody,
 
 } from 'reactstrap';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
-import { login } from '../store/actions';
-import api from '../apis/api';
-import history from '../browserHistory';
+import { login } from '../store/actions/auth.thunk';
 
 class LoginPage extends Component {
   onSubmitLogin = async (formValues) => {
-    const user = { username: formValues.username, password: formValues.password };
-
-    try {
-      const response = await api.post('/user/login', user);
-      console.log(response);
-      history.push('/');
-    } catch(err) {
-      console.log(err);
-    }
+    this.props.login(formValues);
   }
 
   render() {
@@ -83,4 +74,6 @@ const validate = (formValues) => {
   return errors;
 }
 
-export default reduxForm({ form: 'loginForm', validate })(LoginPage);
+const connectedPage = connect(null, { login })(LoginPage);
+
+export default reduxForm({ form: 'loginForm', validate })(connectedPage);

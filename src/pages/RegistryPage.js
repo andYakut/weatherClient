@@ -9,23 +9,16 @@ import {
   CardBody,
 
 } from 'reactstrap';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
-import api from '../apis/api';
-import history from '../browserHistory';
+import { register } from '../store/actions/auth.thunk';
 
 class RegistryPage extends Component {
   onSubmitRegistry = async (formValues) => {
-    const user = { username: formValues.username, email: formValues.email, password: formValues.password };
-    try {
-      const response = await api.post('/user/register', user);
-      console.log(response);
-      history.push('/');
-    } catch (err) {
-      console.log(err);
-    }
+    this.props.register(formValues);
   }
 
   render() {
@@ -99,4 +92,9 @@ const validate = (formValues) => {
   return errors;
 }
 
-export default reduxForm({ form: 'registryForm', validate })(RegistryPage);
+const mapStateToProps = state => {
+  return {...state.register}
+}
+const connectedPage = connect(mapStateToProps, { register })(RegistryPage);
+
+export default reduxForm({ form: 'registryForm', validate })(connectedPage);
