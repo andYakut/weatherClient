@@ -1,5 +1,4 @@
-// import weather from '../../apis/weather';
-import auth from '../../apis/auth';
+import auth from '../../apis/api';
 import history from '../../browserHistory';
 
 import {
@@ -8,7 +7,18 @@ import {
 
 } from './types';
 
+export const register = (newUser) => async dispatch => {
+  dispatch(regiserRequest());
+  try {
+    const response = await auth.post('/register', newUser);
+    dispatch(registerSuccess(response.data));
+  } catch (error) {
+    dispatch(registerFailure(error));
+  }
+}
+
 export const login = (username, passHash) => async dispatch => {
+
   const response = await auth.post('/login', { username, passHash });
 
   dispatch({
@@ -25,21 +35,4 @@ export const logout = username => async dispatch => {
     type: SIGN_OUT
   });
   history.push('/');
-}
-
-export const fetchWeather = async place => (dispatch, getState) => {
-  // const { userId } = getState().auth;
-  
-  // const response = await weather.get('/forecast', {
-  //   params: {
-  //     lat: place.lat,
-  //     lon: place.lon
-  //   }
-  // });
-
-
-  // dispatch( {
-  //   type: FETCH_WEATHER,
-  //   payload: response.data
-  // });
 }

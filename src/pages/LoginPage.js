@@ -11,18 +11,18 @@ import {
 } from 'reactstrap';
 import { reduxForm } from 'redux-form';
 
-import FormInput from '../../share/FormInput';
-import FormTitle from '../../share/FormTitle';
-import { login } from '../../store/actions';
-import auth from '../../apis/auth';
-import history from '../../browserHistory';
-
-import './styles/login-registry.css';
+import FormInput from '../components/share/FormInput';
+import FormTitle from '../components/share/FormTitle';
+import { login } from '../store/actions';
+import api from '../apis/api';
+import history from '../browserHistory';
 
 class LoginPage extends Component {
   onSubmitLogin = async (formValues) => {
+    const user = { username: formValues.username, password: formValues.password };
+
     try {
-      const response = await auth.post('/register', formValues);
+      const response = await api.post('/user/login', user);
       console.log(response);
       history.push('/');
     } catch(err) {

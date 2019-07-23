@@ -1,11 +1,11 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import WeatherPage from './pages/WeatherPage';
-import LoginPage from './pages/LoginPage';
-import RegistryPage from './pages/RegistryPage';
-import RequestHistoryDetails from './pages/RequestHistoryDetails';
-import RequestHistoryList from './pages/RequestsHistoryList';
-import EditProfile from './pages/EditProfile';
+import WeatherPage from '../pages/WeatherPage';
+import LoginPage from '../pages/LoginPage';
+import RegistryPage from '../pages/RegistryPage';
+import RequestHistoryDetails from '../pages/RequestHistoryDetails';
+import RequestHistoryList from '../pages/RequestsHistoryList';
+import EditProfile from '../pages/EditProfile';
 
 import Header from './Header';
 import history from '../browserHistory';

@@ -11,20 +11,19 @@ import {
 } from 'reactstrap';
 import { reduxForm } from 'redux-form';
 
-import FormInput from '../../share/FormInput';
-import FormTitle from '../../share/FormTitle';
-import auth from '../../apis/auth';
-import history from '../../browserHistory';
-
-import './styles/login-registry.css';
+import FormInput from '../components/share/FormInput';
+import FormTitle from '../components/share/FormTitle';
+import api from '../apis/api';
+import history from '../browserHistory';
 
 class RegistryPage extends Component {
   onSubmitRegistry = async (formValues) => {
+    const user = { username: formValues.username, email: formValues.email, password: formValues.password };
     try {
-      const response = await auth.post('/register', formValues);
+      const response = await api.post('/user/register', user);
       console.log(response);
       history.push('/');
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }
@@ -35,14 +34,12 @@ class RegistryPage extends Component {
         <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
             <Card>
-              <CardBody className="form-title">
-                <FormTitle
-                  title="Weather Forecast"
-                  subtitle="Registration"
-                />
-              </CardBody>
+              <FormTitle
+                title="Weather Forecast"
+                subtitle="Registration"
+              />
               <CardBody>
-                <Form onSubmit={this.props.handleSubmit(this.onSubmitRegistry)}> 
+                <Form onSubmit={this.props.handleSubmit(this.onSubmitRegistry)}>
                   <FormInput
                     name="username"
                     type="text"
@@ -69,7 +66,7 @@ class RegistryPage extends Component {
             </Card>
           </Col>
         </Row>
-      </Container>
+      </Container >
     )
   }
 }
@@ -77,9 +74,9 @@ class RegistryPage extends Component {
 const validate = (formValues) => {
   const errors = {};
 
-  if(!formValues.username) {
+  if (!formValues.username) {
     errors.username = "Required";
-  } else if(formValues.username.length > 15) {
+  } else if (formValues.username.length > 15) {
     errors.username = "Must be 15 characters or less";
   }
 
@@ -95,7 +92,7 @@ const validate = (formValues) => {
     errors.password = 'Must be 2 characters or more'
   }
 
-  if(formValues.password !== formValues.confirmPassword) {
+  if (formValues.password !== formValues.confirmPassword) {
     errors.confirmPassword = "Password must be concurrent"
   }
 
