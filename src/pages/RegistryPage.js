@@ -13,10 +13,18 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import styled from 'styled-components';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
 import { register } from '../store/actions/auth.thunk';
+
+const CentralSpinner = styled.div`
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 class RegistryPage extends Component {
   onSubmitRegistry = async (formValues) => {
@@ -24,7 +32,17 @@ class RegistryPage extends Component {
   }
 
   renderSpinner() {
-    return <Spinner color="dark" />
+    return (
+      <CentralSpinner>
+        <Spinner color="dark" />
+      </CentralSpinner>
+    )
+  }
+
+  renderSuccess(message) {
+    return (
+      <Alert color="success">{message}</Alert>
+    )
   }
   
   renderError(error) {
@@ -75,11 +93,13 @@ class RegistryPage extends Component {
 
   render() {
     let content = null;
+    const res = this.props.response;
+
     if(!this.props.isLoading) {
-      if(!this.props.err) {
+      if(!res.status) {
         content = this.renderRegisterForm()
       } else {
-        content = this.renderError(this.props.err)
+        content = res.status === 200 ? this.renderSuccess(res.message) : this.renderError(res.message);
       }
     } else {
       content = this.renderSpinner()

@@ -6,7 +6,10 @@ import {
 
 const INITIAL_STATE = {
   isLoading: null,
-  err: null
+  response: {
+    message: null,
+    status: null
+  }
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -14,9 +17,9 @@ export default (state = INITIAL_STATE, action) => {
     case REGISTER_REQUEST:
       return {...state, isLoading: true}
     case REGISTER_SUCCESS:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false, response: action.payload }
     case REGISTER_FAILURE:
-      return { ...state, isLoading: false, err: action.payload };
+      return { ...state, isLoading: false, response: action.payload };
     default:
       return state;
   }
