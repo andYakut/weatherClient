@@ -25,15 +25,6 @@ export const login = (user) => async dispatch => {
     const response = await auth.post('/user/login', user);
     dispatch(loginSuccess(response.data));
   } catch(error) {
-    dispatch(loginFailure(error));
+    dispatch(loginFailure(error.response.data));
   }
 }
-
-// export const logout = username => async dispatch => {
-//   await auth.post('/logout', { username });
-
-//   dispatch({
-//     type: SIGN_OUT
-//   });
-//   history.push('/');
-// }

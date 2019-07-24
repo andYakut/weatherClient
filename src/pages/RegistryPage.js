@@ -7,46 +7,21 @@ import {
   Form,
   Card,
   CardBody,
-  Spinner,
-  Alert,
 
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import styled from 'styled-components';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
+import Spinner from '../components/share/Spinner';
+import Error from '../components/share/Error';
+import Success from '../components/share/Success';
 import { register } from '../store/actions/auth.thunk';
-
-const CentralSpinner = styled.div`
-  height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 class RegistryPage extends Component {
   onSubmitRegistry = async (formValues) => {
     this.props.register(formValues);
-  }
-
-  renderSpinner() {
-    return (
-      <CentralSpinner>
-        <Spinner color="dark" />
-      </CentralSpinner>
-    )
-  }
-
-  renderSuccess(message) {
-    return (
-      <Alert color="success">{message}</Alert>
-    )
-  }
-  
-  renderError(error) {
-    return <Alert color="danger">{error}</Alert>
   }
 
   renderRegisterForm() {
@@ -92,19 +67,17 @@ class RegistryPage extends Component {
   }
 
   render() {
-    let content = null;
     const res = this.props.response;
 
     if(!this.props.isLoading) {
       if(!res.status) {
-        content = this.renderRegisterForm()
+        return this.renderRegisterForm()
       } else {
-        content = res.status === 200 ? this.renderSuccess(res.message) : this.renderError(res.message);
+        return res.status === 200 ? <Success error={res.message} /> : <Error error={res.message} />;
       }
     } else {
-      content = this.renderSpinner()
+      return <Spinner />
     }
-    return content;
   }
 }
 

@@ -14,6 +14,9 @@ import { reduxForm } from 'redux-form';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
+import Spinner from '../components/share/Spinner';
+import Error from '../components/share/Error';
+import Success from '../components/share/Success';
 import { login } from '../store/actions/auth.thunk';
 
 class LoginPage extends Component {
@@ -21,7 +24,7 @@ class LoginPage extends Component {
     this.props.login(formValues);
   }
 
-  render() {
+  renderLoginForm() {
     return (
       <Container className="mt-5">
         <Row>
@@ -54,6 +57,19 @@ class LoginPage extends Component {
       </Container>
     )
   }
+
+  render() {
+    const res = this.props.responce;
+    if(!this.props.isLoading) {
+      if(!res) {
+        return this.renderLoginForm();
+      } else {
+        return res.success ? <Success message={res.message} /> : <Error err={res.message} />
+      }
+    } else {
+      return <Spinner />
+    }
+  }
 }
 
 const validate = (formValues) => {
@@ -74,6 +90,10 @@ const validate = (formValues) => {
   return errors;
 }
 
-const connectedPage = connect(null, { login })(LoginPage);
+const mapStateToProps = state => {
+  return { ...state.auth }
+}
+
+const connectedPage = connect(mapStateToProps, { login })(LoginPage);
 
 export default reduxForm({ form: 'loginForm', validate })(connectedPage);
