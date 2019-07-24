@@ -1,4 +1,4 @@
-import {   
+import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE
@@ -13,13 +13,24 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case REGISTER_REQUEST:
-      return {...state, isLoading: true}
+      return {
+        ...state,
+        isLoading: true
+      }
     case REGISTER_SUCCESS:
-      return { ...state, isLoading: false, response: action.payload }
+      return {
+        ...state,
+        isLoading: false,
+        response: action.payload
+      }
     case REGISTER_FAILURE:
-      return { ...state, isLoading: false, response: action.payload };
+      return {
+        ...state,
+        isLoading: false,
+        response: action.payload
+      };
     default:
       return state;
   }

@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import WeatherPage from '../pages/WeatherPage';
 import LoginPage from '../pages/LoginPage';
 import RegistryPage from '../pages/RegistryPage';
-import RequestHistoryDetails from '../pages/RequestHistoryDetails';
-import RequestHistoryList from '../pages/RequestsHistoryList';
-import EditProfile from '../pages/EditProfile';
+import Protected from './Protected';
+import { connect } from 'react-redux';
 
 import Header from './Header';
 import history from '../browserHistory';
+import { logout } from '../store/actions/auth.action';
 
-const App = () => {
-  return (
-    <div>
-      <Router history={history}>
-        <Header />
-        <div>
-          <Switch>
-            <Route path="/" exact component={WeatherPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/registry" component={RegistryPage} />
-            <Route path="/history/details" component={RequestHistoryDetails} />
-            <Route path="/history" component={RequestHistoryList} />
-            <Route path="/edit/profile" component={EditProfile} />
-          </Switch>
-        </div>
-      </Router>
-    </div>
-  )
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Router history={history}>
+          <Header
+            isLogin={this.props.auth.isLogin}
+            checkLoginCompleted={this.props.auth.checkLoginCompleted}
+            logout={this.props.logout}
+            checkLogin={this.props.checkLogin}
+          />
+          <div>
+            <Switch>
+              <Route path="/login" exact component={LoginPage} />
+              <Route path="/registry" exact component={RegistryPage} />
+              <Route path="/" component={Protected} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return { ...state }
+}
+
+export default connect(mapStateToProps, { logout })(App);

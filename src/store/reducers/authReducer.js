@@ -1,18 +1,64 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/types';
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  CHECK_LOGIN_REQUEST,
+  CHECK_LOGIN_SUCCESS,
+  CHECK_LOGIN_FAILURE,
+} from '../actions/types';
 
 const INITIAL_STATE = {
-  isLoadign: null,
-  responce: null
+  isLoading: null,
+  isLogin: null,
+  response: null,
+  checkLoginCompleted: false
 }
 
 export default (state = INITIAL_STATE, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case LOGIN_REQUEST:
-      return {...state, isLoading: true}
+      return {
+        ...state,
+        isLoading: true
+      }
     case LOGIN_SUCCESS:
-      return {...state, isLoading: false, responce: action.payload }
+      return {
+        ...state,
+        isLoading: false,
+        isLogin: true,
+        response: action.payload
+      }
     case LOGIN_FAILURE:
-      return {...state, isLoading: false, responce: action.payload}
+      return {
+        ...state,
+        isLoading: false,
+        response: action.payload
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        isLogin: false,
+        response: null,
+        checkLoginCompleted: true
+      }
+
+    case CHECK_LOGIN_REQUEST:
+      return {
+        ...state
+      }
+    case CHECK_LOGIN_SUCCESS:
+      return {
+        ...state,
+        isLogin: true,
+        checkLoginCompleted: action.payload.checkLoginCompleted
+      }
+    case CHECK_LOGIN_FAILURE:
+      return {
+        ...state,
+        isLogin: false,
+        checkLoginCompleted: action.payload.checkLoginCompleted
+      }
     default:
       return state;
   }
