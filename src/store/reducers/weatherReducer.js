@@ -6,6 +6,8 @@ import {
 
 const INITIAL_STATE = {
   isLoading: null,
+  weathersList: [
+  ],
   response: null
 }
 
@@ -14,7 +16,11 @@ export default (state = INITIAL_STATE, action) => {
     case WEATHER_GET_REQUEST:
       return {...state, isLoading: true}
     case WEATHER_GET_SUCCESS:
-      return { ...state, isLoading: false, response: action.payload }
+      return { ...state, isLoading: false, weathersList: [...state.weathersList, {
+        name: 'some',
+        date: 'some',
+        list: action.payload
+      }] }
     case WEATHER_GET_FAILURE:
       return { ...state, isLoading: false, response: action.payload };
     default:
