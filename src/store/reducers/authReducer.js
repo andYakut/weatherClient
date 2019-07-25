@@ -51,13 +51,13 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLogin: true,
-        checkLoginCompleted: action.payload.checkLoginCompleted
+        checkLoginCompleted: true
       }
     case CHECK_LOGIN_FAILURE:
       return {
         ...state,
         isLogin: false,
-        checkLoginCompleted: action.payload.checkLoginCompleted
+        checkLoginCompleted: true
       }
     default:
       return state;

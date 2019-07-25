@@ -51,14 +51,14 @@ class WeatherPage extends Component {
         </thead>
         <tbody>
           {currentWeather.list.map((item, index) => {
-            let temp = Math.round((item.main.temp - 273.15) * 10) / 10;
-            let [date, time] = item.dt_txt.split(' ');
+            let temp = Math.round((item.temperature - 273.15) * 10) / 10;
+            let [date, time] = item.Date.split(' ');
             let [year, month, day] = date.split('-');
             return <tr key={"weather-" + index + 1}>
               <th>{ index }</th>
               <th>{ `${day}.${month}.${year} ${time.slice(0, -3)}` }</th>
               <th>{ temp > 0 ? "+" + temp : temp }</th>
-              <th>{ item.weather[0].main }</th>
+              <th>{ item.Conditions }</th>
             </tr>
           })}
         </tbody>

@@ -16,7 +16,7 @@ import history from '../../browserHistory';
 export const register = (newUser) => async dispatch => {
   dispatch(registerRequest());
   try {
-    const response = await auth.post('/user/register', newUser);
+    const response = await auth.post('/auth/register', newUser);
     dispatch(registerSuccess(response.data));
   } catch (error) {
     dispatch(registerFailure(error.response && error.response.data ?  error.response.data : 'SMTH WRONG'));
@@ -26,7 +26,7 @@ export const register = (newUser) => async dispatch => {
 export const login = (user) => async dispatch => {
   dispatch(loginRequest());
   try {
-    const response = await auth.post('/user/login', user);
+    const response = await auth.post('/auth/login', user);
     localStorage.setItem('token', response.data.token)
     dispatch(loginSuccess(response.data));
     history.push('/');
@@ -38,7 +38,7 @@ export const login = (user) => async dispatch => {
 export const checkLogin = () => async dispatch => {
   dispatch(checkLoginRequest());
   try {
-    const response = await auth.get('/user/checkLogin');
+    const response = await auth.get('/auth/checkLogin');
 
     dispatch(checkLoginSuccess(response.data));
   } catch(error) {
