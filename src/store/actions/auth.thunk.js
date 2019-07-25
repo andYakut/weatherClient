@@ -42,6 +42,7 @@ export const checkLogin = () => async dispatch => {
 
     dispatch(checkLoginSuccess(response.data));
   } catch(error) {
+    localStorage.removeItem('token');
     dispatch(checkLoginFailure(error.response ?  error.response.data : 'SMTH WRONG'));
   }
 }
