@@ -2,6 +2,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGIN_FAILURE_CLEAR,
   LOGOUT,
   CHECK_LOGIN_REQUEST,
   CHECK_LOGIN_SUCCESS,
@@ -36,11 +37,18 @@ export default (state = INITIAL_STATE, action) => {
         isLoading: false,
         error: action.payload,
       }
+    case LOGIN_FAILURE_CLEAR:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+      }
     case LOGOUT:
       return {
         ...state,
         isLogin: false,
         response: null,
+        error: null,
         checkLoginCompleted: true
       }
 

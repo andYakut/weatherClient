@@ -5,6 +5,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGIN_FAILURE_CLEAR,
   LOGOUT,
   CHECK_LOGIN_REQUEST,
   CHECK_LOGIN_SUCCESS,
@@ -37,6 +38,10 @@ export const loginSuccess = (data) => ({
 export const loginFailure = (error) => ({
   type: LOGIN_FAILURE,
   payload: error
+})
+
+export const loginFailureClear = () => ({
+  type: LOGIN_FAILURE_CLEAR
 })
 
 export const logout = () => ({

@@ -1,5 +1,6 @@
 import profile from '../../../apis/api';
 import history from '../../../browserHistory';
+import { change } from 'redux-form';
 
 import {
   editProfileRequest,
@@ -26,7 +27,8 @@ export const editProfile = (newData) => async dispatch => {
 export const getProfile = () => async dispatch => {
   dispatch(getProfileRequest());
   try {
-    const response = await profile.get('/profile')
+    const response = await profile.get('/profile');
+    dispatch(change('editForm', 'username', response.data.username));
     dispatch(getProfileSuccess(response.data));
   } catch(error) {
     const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';

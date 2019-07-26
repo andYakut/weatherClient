@@ -4,6 +4,7 @@ import {
   loginRequest, 
   loginSuccess, 
   loginFailure,
+  loginFailureClear,
   registerRequest,
   registerSuccess,
   registerFailure,
@@ -35,6 +36,9 @@ export const login = (user) => async dispatch => {
   } catch(error) {
     const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';
     dispatch(loginFailure(err));
+    setTimeout(() => {
+      dispatch(loginFailureClear());
+    }, 5000)
   }
 }
 

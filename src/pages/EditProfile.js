@@ -12,7 +12,7 @@ import {
 
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { reduxForm, change } from 'redux-form';
+import { reduxForm } from 'redux-form';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
@@ -20,12 +20,12 @@ import Spinner from '../components/share/Spinner';
 import Error from '../components/share/Error';
 import Success from '../components/share/Success';
 import { editProfile, getProfile } from '../store/actions/editProfile/editProfile.thunk';
+import history from '../browserHistory';
 
 
 class EditProfile extends Component {
   async componentDidMount() {
     await this.props.getProfile();
-    this.props.changeField('username', this.props.profile.username);
   }
 
   onSubmitEdit = async (formValues) => {
@@ -70,8 +70,8 @@ class EditProfile extends Component {
                     component="input"
                   />
                   <ButtonGroup>
-                    <Button>Edit</Button>
-                    <Button>Cancel</Button>
+                    <Button onClick={this.props.handleSubmit(this.onSubmitEdit)}>Edit</Button>
+                    <Button onClick={() => history.push('/')}>Cancel</Button>
                   </ButtonGroup>
                 </Form>
               </CardBody>
@@ -111,24 +111,10 @@ const validate = (formValues) => {
   return errors;
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeField: (field, value) => {
-      dispatch(change('editForm', field, value));
-    },
-    editProfile: (values) => {
-      dispatch(editProfile(values));
-    },
-    getProfile: () => {
-      dispatch(getProfile());
-    }
-  }
-}
-
 const mapStateToProps = state => {
   return {...state.editProfile}
 }
 
-const connectedPage = connect(mapStateToProps, mapDispatchToProps)(EditProfile);
+const connectedPage = connect(mapStateToProps, { editProfile, getProfile })(EditProfile);
 
 export default reduxForm({ form: 'editForm', validate })(connectedPage);

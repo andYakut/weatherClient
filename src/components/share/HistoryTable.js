@@ -15,6 +15,7 @@ const StyledLink = styled(Link)`
 
 const HistoryTable = (props) => {
   if(!props.body) return <Spinner />
+  if(props.body.length === 0) return <div>You don't have weather requests</div>
   return <Table>
       <tbody>
         {props.body.map((item, index) => {

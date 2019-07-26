@@ -56,13 +56,10 @@ class WeatherPage extends Component {
     )
   }
 }
-// const mapStateToProps = state => {
-//   return { ...state.weather }
-// }
 
-const mapStateToProps = state => ({
-  initialValues: state.editProfile.profile
-})
+const mapStateToProps = state => {
+  return { ...state.weather }
+}
 
 const connectedPage = connect(mapStateToProps, { getWeatherList })(WeatherPage);
 
