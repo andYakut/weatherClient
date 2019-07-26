@@ -32,7 +32,7 @@ class Protected extends Component {
             <Col sm="12" md={{ size: 6, offset: 3 }}>
               <Switch>
                 <Route path="/" exact component={WeatherPage} />
-                <Route path="/history/details" component={RequestHistoryDetails} />
+                <Route path="/history/details/:id" component={RequestHistoryDetails} />
                 <Route path="/history" component={RequestHistoryList} />
                 <Route path="/profile/edit" component={EditProfile} />
               </Switch>

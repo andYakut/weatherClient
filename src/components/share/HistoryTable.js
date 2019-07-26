@@ -27,7 +27,7 @@ const HistoryTable = (props) => {
                 {item.cityName}
               </th>
               <th>
-                <StyledLink to={`/history/${item._id}`}>Details</StyledLink>
+                <StyledLink to={`/history/details/${item._id}`}>Details</StyledLink>
               </th>
             </tr>
           )

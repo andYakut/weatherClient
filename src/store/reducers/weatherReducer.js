@@ -16,11 +16,7 @@ export default (state = INITIAL_STATE, action) => {
     case WEATHER_GET_REQUEST:
       return {...state, isLoading: true}
     case WEATHER_GET_SUCCESS:
-      return { ...state, isLoading: false, weathersList: [...state.weathersList, {
-        name: action.payload.cityName,
-        date: action.payload.date,
-        list: action.payload.list
-      }] }
+      return { ...state, isLoading: false, weathersList: action.payload }
     case WEATHER_GET_FAILURE:
       return { ...state, isLoading: false, response: action.payload };
     default:

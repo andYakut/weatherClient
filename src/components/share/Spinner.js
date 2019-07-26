@@ -3,7 +3,7 @@ import { Spinner as ReactSpinner } from 'reactstrap';
 import styled from 'styled-components';
 
 const CentralSpinner = styled.div`
-  height: 90vh;
+  height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;

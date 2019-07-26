@@ -19,11 +19,10 @@ class FormInput extends Component {
   renderInput = ({ input, lable, type, meta }) => {
     const inputDanger = `${meta.error && meta.touched ? 'alert-danger' : ''}`;
     const lableDanger = `${meta.error && meta.touched ? 'text-danger' : ''}`;
-    
     return (
       <FormGroup>
         <Label className={lableDanger}>{lable}</Label>
-        <Input className={inputDanger} {...input} type={type} ></Input>
+        <Input className={inputDanger} {...input} type={type}></Input>
         {this.renderError(meta)}
       </FormGroup>
     )
@@ -31,9 +30,13 @@ class FormInput extends Component {
 
   render() {
     const { lable, type, name } = this.props;
-
     return (
-      <Field name={name} lable={lable} type={type} component={this.renderInput} />
+      <Field 
+        name={name} 
+        lable={lable} 
+        type={type} 
+        component={this.renderInput} 
+      />
     )
   }
 }

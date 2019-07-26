@@ -8,8 +8,8 @@ import {
   Form,
 } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { Table } from 'reactstrap';
 
+import WeatherTable from '../components/share/WeatherTable';
 import { getWeatherList } from '../store/actions/weather/weather.thunk';
 
 class WeatherPage extends Component {
@@ -38,33 +38,10 @@ class WeatherPage extends Component {
   }
 
   renderTable() {
-    if(this.props.weathersList.length) {
-      const currentWeather = this.props.weathersList[this.props.weathersList.length - 1];
-      return <Table hover bordered>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Data</th>
-            <th>Temperature</th>
-            <th>Weather condition</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentWeather.list.map((item, index) => {
-            let temp = Math.round((item.temperature - 273.15) * 10) / 10;
-            let [date, time] = item.date.split(' ');
-            let [year, month, day] = date.split('-');
-            return <tr key={"weather-" + index + 1}>
-              <th>{ index }</th>
-              <th>{ `${day}.${month}.${year} ${time.slice(0, -3)}` }</th>
-              <th>{ temp > 0 ? "+" + temp : temp }</th>
-              <th>{ item.conditions }</th>
-            </tr>
-          })}
-        </tbody>
-      </Table>
-    } else {
+    if(!this.props.weathersList) {
       return <div>Nothing to download</div>
+    } else {
+      return <WeatherTable weatherList={this.props.weathersList.list} />
     }
   }
 
@@ -79,9 +56,13 @@ class WeatherPage extends Component {
     )
   }
 }
-const mapStateToProps = state => {
-  return { ...state.weather }
-}
+// const mapStateToProps = state => {
+//   return { ...state.weather }
+// }
+
+const mapStateToProps = state => ({
+  initialValues: state.editProfile.profile
+})
 
 const connectedPage = connect(mapStateToProps, { getWeatherList })(WeatherPage);
 
