@@ -9,7 +9,7 @@ import {
   CHECK_LOGIN_REQUEST,
   CHECK_LOGIN_SUCCESS,
   CHECK_LOGIN_FAILURE ,
-} from './types';
+} from '../types';
 
 export const registerRequest = () => ({
   type: REGISTER_REQUEST,

@@ -17,7 +17,7 @@ import FormTitle from '../components/share/FormTitle';
 import Spinner from '../components/share/Spinner';
 import Error from '../components/share/Error';
 import Success from '../components/share/Success';
-import { register } from '../store/actions/auth.thunk';
+import { register } from '../store/actions/auth/auth.thunk';
 
 class RegistryPage extends Component {
   onSubmitRegistry = async (formValues) => {

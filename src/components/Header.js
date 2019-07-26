@@ -46,6 +46,7 @@ const renderProfile = (logout) => {
         style={{ marginRight: "1em" }}
       >Logout</Button>
       <StyledLink to="/profile/edit">Profile</StyledLink>
+      <StyledLink to="/history">History</StyledLink>
     </NavItem>
   )
 }

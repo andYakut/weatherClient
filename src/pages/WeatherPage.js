@@ -10,7 +10,7 @@ import {
 import { Field, reduxForm } from 'redux-form';
 import { Table } from 'reactstrap';
 
-import { getWeatherList } from '../store/actions/weather.thunk';
+import { getWeatherList } from '../store/actions/weather/weather.thunk';
 
 class WeatherPage extends Component {
   constructor(props) {
@@ -52,13 +52,13 @@ class WeatherPage extends Component {
         <tbody>
           {currentWeather.list.map((item, index) => {
             let temp = Math.round((item.temperature - 273.15) * 10) / 10;
-            let [date, time] = item.Date.split(' ');
+            let [date, time] = item.date.split(' ');
             let [year, month, day] = date.split('-');
             return <tr key={"weather-" + index + 1}>
               <th>{ index }</th>
               <th>{ `${day}.${month}.${year} ${time.slice(0, -3)}` }</th>
               <th>{ temp > 0 ? "+" + temp : temp }</th>
-              <th>{ item.Conditions }</th>
+              <th>{ item.conditions }</th>
             </tr>
           })}
         </tbody>

@@ -7,7 +7,6 @@ const axios =  axioslib.create({
 axios.interceptors.request.use(
   config => {
     config.headers.Token = localStorage.getItem("token");
-    console.log('config.headers', config.headers)
     return config;
   },
   error => Promise.reject(error)

@@ -7,21 +7,42 @@ import {
   Form,
   Card,
   CardBody,
+  Alert,
 
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import FormInput from '../components/share/FormInput';
 import FormTitle from '../components/share/FormTitle';
 import Spinner from '../components/share/Spinner';
 import Error from '../components/share/Error';
 import Success from '../components/share/Success';
-import { login } from '../store/actions/auth.thunk';
+import { login } from '../store/actions/auth/auth.thunk';
+
+const StyledLink = styled(Link)`
+  display: block;
+
+  :hover {
+    text-decoration: none;
+  }
+`
 
 class LoginPage extends Component {
   onSubmitLogin = async (formValues) => {
     this.props.login(formValues);
+  }
+
+  renderServerError() {
+    if(!this.props.error) return null;
+    return (
+      <Alert color="danger">
+        {this.props.error.message}
+        <StyledLink to="/registry">Registry?</StyledLink>
+      </Alert>
+    )
   }
 
   renderLoginForm() {
@@ -35,6 +56,7 @@ class LoginPage extends Component {
                   title="Weather Forecast"
                   subtitle="Login to continue"
                 />
+                {this.renderServerError()}
               </CardBody>
               <CardBody>
                 <Form onSubmit={this.props.handleSubmit(this.onSubmitLogin)}>

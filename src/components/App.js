@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import Header from './Header';
 import history from '../browserHistory';
-import { logout } from '../store/actions/auth.action';
+import { logout } from '../store/actions/auth/auth.action';
 
 class App extends Component {
   render() {

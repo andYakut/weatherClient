@@ -1,4 +1,4 @@
-import weather from '../../apis/api';
+import weather from '../../../apis/api';
 
 import {
   weatherGetRequest,
@@ -7,7 +7,7 @@ import {
 } from './weather.action';
 
 export const getWeatherList = (coords) => async dispatch => {
-  dispatch(weatherGetRequest);
+  dispatch(weatherGetRequest());
   try {
     const response = await weather.get('/api/weather', {
       params: {
@@ -16,7 +16,8 @@ export const getWeatherList = (coords) => async dispatch => {
       }
     });
     dispatch(weatherGetSuccess(response.data));
-  } catch (e) {
-    if (e.response) dispatch(weatherGetFailure(e.response.data))
+  } catch (error) {
+    const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';
+    dispatch(weatherGetFailure(err));
   }
 }

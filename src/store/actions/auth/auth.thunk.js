@@ -1,4 +1,4 @@
-import auth from '../../apis/api';
+import auth from '../../../apis/api';
 
 import { 
   loginRequest, 
@@ -11,15 +11,17 @@ import {
   checkLoginSuccess,
   checkLoginFailure
 } from './auth.action';
-import history from '../../browserHistory';
+import history from '../../../browserHistory';
 
 export const register = (newUser) => async dispatch => {
   dispatch(registerRequest());
   try {
     const response = await auth.post('/auth/register', newUser);
     dispatch(registerSuccess(response.data));
+    history.push('/login');
   } catch (error) {
-    dispatch(registerFailure(error.response && error.response.data ?  error.response.data : 'SMTH WRONG'));
+    const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';
+    dispatch(registerFailure(err));
   }
 }
 
@@ -31,7 +33,8 @@ export const login = (user) => async dispatch => {
     dispatch(loginSuccess(response.data));
     history.push('/');
   } catch(error) {
-    dispatch(loginFailure(error.response && error.response.data ?  error.response.data : 'SMTH WRONG'));
+    const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';
+    dispatch(loginFailure(err));
   }
 }
 
@@ -43,6 +46,7 @@ export const checkLogin = () => async dispatch => {
     dispatch(checkLoginSuccess(response.data));
   } catch(error) {
     localStorage.removeItem('token');
-    dispatch(checkLoginFailure(error.response ?  error.response.data : 'SMTH WRONG'));
+    const err = error.response && error.response.data ? error.response.data : 'SMTH WRONG';
+    dispatch(checkLoginFailure(err));
   }
 }

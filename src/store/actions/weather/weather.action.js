@@ -1,8 +1,9 @@
 import {
   WEATHER_GET_REQUEST,
   WEATHER_GET_SUCCESS,
-  WEATHER_GET_FAILURE
-} from './types';
+  WEATHER_GET_FAILURE,
+
+} from '../types';
 
 export const weatherGetRequest = () => ({
   type: WEATHER_GET_REQUEST

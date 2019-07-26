@@ -12,7 +12,7 @@ import RequestHistoryDetails from '../pages/RequestHistoryDetails';
 import RequestHistoryList from '../pages/RequestsHistoryList';
 import EditProfile from '../pages/EditProfile';
 
-import { checkLogin } from '../store/actions/auth.thunk'
+import { checkLogin } from '../store/actions/auth/auth.thunk'
 
 class Protected extends Component {
 
@@ -31,7 +31,7 @@ class Protected extends Component {
           <Row>
             <Col sm="12" md={{ size: 6, offset: 3 }}>
               <Switch>
-                <Route path="/" component={WeatherPage} />
+                <Route path="/" exact component={WeatherPage} />
                 <Route path="/history/details" component={RequestHistoryDetails} />
                 <Route path="/history" component={RequestHistoryList} />
                 <Route path="/profile/edit" component={EditProfile} />

@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   isLoading: null,
   isLogin: null,
   response: null,
+  error: null,
   checkLoginCompleted: false
 }
 
@@ -33,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        response: action.payload
+        error: action.payload,
       }
     case LOGOUT:
       return {
